@@ -1,0 +1,26 @@
+{
+  "root": ".",
+  "title": "Yusheng Zhang Archive",
+  "language": "zh-hans",
+  "plugins": [
+    "-lunr",
+    "katex-mhchem",
+    "custom-favicon",
+    "page-footer-ex"
+  ],
+  "pdf": {
+    "fontFamily": "AR PL UKai CN"
+  },
+  "pluginsConfig": {
+    "favicon": "./img/fav.ico",
+    "anchor-navigation-ex": {
+      "showLevel": false
+    },
+    "page-footer-ex": {
+      "copyright": "zhang-yusheng@github",
+      "markdown": false,
+      "update_label": "<i>updated</i>",
+      "update_format": "YYYY-MM-DD HH:mm:ss"
+    }
+  }
+}
