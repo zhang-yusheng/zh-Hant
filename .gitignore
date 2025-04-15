@@ -19,3 +19,9 @@ tosort
 photos
 organize
 TODO.md
+
+# local env files
+.env
+
+# diff output
+scripts/diff_output
