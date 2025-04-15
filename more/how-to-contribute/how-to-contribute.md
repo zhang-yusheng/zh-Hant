@@ -35,7 +35,7 @@
 
 # markdown 教程
 
-現在，打開 [Markdown 官方教程](https://markdown.com.cn/basic-syntax/)，但請不要着急閱讀。
+現在，打開 [Markdown 官方教程](https://markdown.com.cn/basic-syntax/)，但請不要著急閱讀。
 
 在瀏覽 `.md` 文件時，有看不懂的地方，在教程上進行查閱即可。
 
