@@ -8,7 +8,7 @@
         -   [大海](./albums/1992-12-xx-dh/1992-12-xx-dh.md)
         -   [一天到晚游泳的魚](./albums/1993-08-24-ytdwyydy/1993-08-24-ytdwyydy.md)
         -   [自由歌](./albums/1994-01-xx-zyg/1994-01-xx-zyg.md)
-        -   [卡拉 OK·臺北·我](./albums/1994-08-xx-kloktbw/1994-08-xx-kloktbw.md)
+        -   [卡拉 OK·台北·我](./albums/1994-08-xx-kloktbw/1994-08-xx-kloktbw.md)
         -   [還是朋友](./albums/1995-03-27-hspy/1995-03-27-hspy.md)
         -   [白色才情](./albums/1996-06-xx-bscq/1996-06-xx-bscq.md)
         -   [口是心非（拋物線版）](./albums/1997-xx-xx-ksxf-parabola/1997-xx-xx-ksxf-parabola.md)
@@ -32,7 +32,7 @@
     -   [《跟你說真的》序](./articles/1994-0x-xx-preface-of-tell-you-the-truth.md)
 -   信札
     -   情書
-        -   [起牀偶感](./letters/19xx-xx-xx-qi-chuang-ou-gan/19xx-xx-xx-qi-chuang-ou-gan.md)
+        -   [起床偶感](./letters/19xx-xx-xx-qi-chuang-ou-gan/19xx-xx-xx-qi-chuang-ou-gan.md)
         -   [生日星座詩](./letters/199x-xx-xx-birthday-zodiac-poem/199x-xx-xx-birthday-zodiac-poem.md)
         -   [「愛」不在最美的時刻說，那要在什麼時候出口呢？](./letters/1992-06-16-say-love/1992-06-16-say-love.md)
     -   致同事
