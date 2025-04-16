@@ -145,7 +145,7 @@ markdown 中插入 B 站視頻需要使用 HTML 語法。
 
 ## 繁簡轉換
 
-這個功能是在安裝了 opencclint 插件以後纔會有的。
+這個功能是在安裝了 opencclint 插件以後才會有的。
 
 選中一段文字後，右鍵，在彈出的擴展菜單中，點擊 `Opencclint: Translate Selection`，就可以將簡體轉換爲繁體；點擊`Opencclint: Translate Selection Revert` 可以將繁體轉換爲簡體。
 
