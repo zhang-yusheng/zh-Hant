@@ -35,7 +35,7 @@
 
 # markdown 教程
 
-現在，打開 [Markdown 官方教程](https://markdown.com.cn/basic-syntax/)，但請不要着急閱讀。
+現在，打開 [Markdown 官方教程](https://markdown.com.cn/basic-syntax/)，但請不要著急閱讀。
 
 在瀏覽 `.md` 文件時，有看不懂的地方，在教程上進行查閱即可。
 
@@ -43,7 +43,7 @@
 
 配置好 vscode 編輯器後，就可以開始編寫資料了。
 
-這裏用已經整理好的《口是心非》專輯作爲例子，從 [《口是心非》資料整理](https://timaab.lanzouj.com/iWlmB2b4cyyd) 下載壓縮包並解壓，然後打開 vscode。
+這裡用已經整理好的《口是心非》專輯作爲例子，從 [《口是心非》資料整理](https://timaab.lanzouj.com/iWlmB2b4cyyd) 下載壓縮包並解壓，然後打開 vscode。
 
 ## 編輯文件和打開文件夾
 
@@ -72,7 +72,7 @@
 
 ![預覽效果](./preview-result.png)
 
-就像谷歌瀏覽器裏的每個標籤頁那樣，在 vscode 中，所有打開的頁籤都是可以拖動的。
+就像谷歌瀏覽器裡的每個標籤頁那樣，在 vscode 中，所有打開的頁籤都是可以拖動的。
 ![拖動頁籤](./move-tabs.png)
 
 ## 查閱 markdown 語法
@@ -87,7 +87,7 @@ markdown 中，使用 `.` 表示當前 markdown 文件所在的文件夾，所�
 ## 插入 B 站視頻
 
 markdown 中插入 B 站視頻需要使用 HTML 語法。
-首先我們需要獲取視頻的分享鏈接，這裏用[《我期待》MV 爲例](https://www.bilibili.com/video/BV1VV41117KV/)：
+首先我們需要獲取視頻的分享鏈接，這裡用[《我期待》MV 爲例](https://www.bilibili.com/video/BV1VV41117KV/)：
 
 ![獲取視頻分享鏈接](./get-video-share-link.png)
 
@@ -97,19 +97,19 @@ markdown 中插入 B 站視頻需要使用 HTML 語法。
 <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=415220022&bvid=BV1VV41117KV&cid=252344992&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 ```
 
-我們只需要 `src=""` 裏面的內容，所以上面這段代碼，真正有用的部分是：
+我們只需要 `src=""` 裡面的內容，所以上面這段代碼，真正有用的部分是：
 
 ```
 //player.bilibili.com/player.html?isOutside=true&aid=415220022&bvid=BV1VV41117KV&cid=252344992&p=1
 ```
 
-這裏提供嵌入 B 站視頻鏈接的一個模板：
+這裡提供嵌入 B 站視頻鏈接的一個模板：
 
 ```html
-<iframe src="https:「替換到這裏」&high_quality=1&danmaku=0&autoplay=0" allowfullscreen="allowfullscreen" width="100%" height="500" scrolling="no" frameborder="0" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
+<iframe src="https:「替換到這裡」&high_quality=1&danmaku=0&autoplay=0" allowfullscreen="allowfullscreen" width="100%" height="500" scrolling="no" frameborder="0" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
 ```
 
-把真正有用的部分替換到模板裏面：
+把真正有用的部分替換到模板裡面：
 
 ```html
 <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=415220022&bvid=BV1VV41117KV&cid=252344992&p=1&high_quality=1&danmaku=0&autoplay=0" allowfullscreen="allowfullscreen" width="100%" height="500" scrolling="no" frameborder="0" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
@@ -124,7 +124,7 @@ markdown 中插入 B 站視頻需要使用 HTML 語法。
 
 ## 檢查拼寫錯誤單詞
 
-點擊下方狀態欄中 圓圈裏有個 i 的圖標，可以檢查拼寫錯誤
+點擊下方狀態欄中 圓圈裡有個 i 的圖標，可以檢查拼寫錯誤
 
 ![檢查拼寫錯誤](./check-spell-errors.png)
 
@@ -145,7 +145,7 @@ markdown 中插入 B 站視頻需要使用 HTML 語法。
 
 ## 繁簡轉換
 
-這個功能是在安裝了 opencclint 插件以後纔會有的。
+這個功能是在安裝了 opencclint 插件以後才會有的。
 
 選中一段文字後，右鍵，在彈出的擴展菜單中，點擊 `Opencclint: Translate Selection`，就可以將簡體轉換爲繁體；點擊`Opencclint: Translate Selection Revert` 可以將繁體轉換爲簡體。
 
@@ -209,7 +209,7 @@ zhang-yusheng.github.io
 -   [專輯](./albums/albums.md)
     -   [口是心非](./albums/1997-10-16-ksxf/1997-10-16-ksxf.md)
     -   [口是心非（拋物線版）](./albums/1997-xx-xx-ksxf-parabola/1997-xx-xx-ksxf-parabola.md)
-    -   [卡拉 OK·臺北·我](./albums/1994-08-xx-kloktbw/1994-08-xx-kloktbw.md)
+    -   [卡拉 OK·台北·我](./albums/1994-08-xx-kloktbw/1994-08-xx-kloktbw.md)
 -   [文章](./articles/articles.md)
     -   [《跟你說真的》序](./articles/1994-0x-xx-preface-of-tell-you-the-truth.md)
 -   [綜藝](./shows/shows.md)
