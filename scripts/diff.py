@@ -6,6 +6,16 @@ import opencc
 import difflib
 import re
 
+# 定義常見文字檔案擴展名
+TEXT_FILE_EXTENSIONS = {
+    '.md', '.txt', '.html', '.htm', '.xml', '.yaml', '.yml',
+    '.toml', '.ini'
+}
+
+def is_text_file(file_path):
+    """判斷檔案是否為文字檔案"""
+    return file_path.suffix.lower() in TEXT_FILE_EXTENSIONS
+
 def load_custom_phrase_map(file_path):
     phrase_map = {}
     if not Path(file_path).exists():
@@ -29,71 +39,122 @@ def normalize_content(content):
     return content
 
 def convert_files(directory, converter):
-    for file_path in directory.glob("**/*.md"):
-        try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                content = f.read()
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write(converter.convert(content))
-        except Exception as e:
-            print(f"轉換失敗 {file_path}: {e}")
+    for file_path in directory.glob("**/*"):
+        if file_path.is_file() and is_text_file(file_path):
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+                with open(file_path, "w", encoding="utf-8") as f:
+                    f.write(converter.convert(content))
+            except Exception as e:
+                print(f"轉換失敗 {file_path}: {e}")
 
 def create_semantic_diff(source_dir, target_dir, output_file, phrase_map, t2s_converter):
-    source_files = sorted(Path(source_dir).glob("**/*.md"))
+    # 只收集文字檔案
+    source_files = {p.relative_to(source_dir): p for p in Path(source_dir).glob("**/*") 
+                   if p.is_file() and is_text_file(p)}
+    target_files = {p.relative_to(target_dir): p for p in Path(target_dir).glob("**/*") 
+                   if p.is_file() and is_text_file(p)}
+    
+    all_files = sorted(set(source_files.keys()) | set(target_files.keys()))
+    
     has_diff = False
     skipped_log = []
     with open(output_file, "w", encoding="utf-8") as diff_file:
-        for source_path in source_files:
-            rel_path = source_path.relative_to(source_dir)
-            target_path = Path(target_dir) / rel_path
-
-            if not target_path.exists():
-                continue  # 不再輸出空文件 header
-
-            with open(source_path, "r", encoding="utf-8") as f:
-                source_lines = normalize_content(f.read()).splitlines()
-            with open(target_path, "r", encoding="utf-8") as f:
-                target_lines = normalize_content(f.read()).splitlines()
-
-            raw_diff = list(difflib.unified_diff(
-                source_lines, target_lines,
-                fromfile=str(source_path),
-                tofile=str(target_path),
-                lineterm='', n=3
-            ))
-
-            diff_blocks = []
-            current_block = []
-            for line in raw_diff:
-                if line.startswith('@@') and current_block:
-                    diff_blocks.append(current_block)
-                    current_block = [line]
-                else:
-                    current_block.append(line)
-            if current_block:
-                diff_blocks.append(current_block)
-
-            filtered_blocks = []
-            for block in diff_blocks:
-                minus_lines = [l[1:].strip() for l in block if l.startswith('-') and not l.startswith('---')]
-                plus_lines = [l[1:].strip() for l in block if l.startswith('+') and not l.startswith('+++')]
-                skip = False
-                for simp, trad in phrase_map.items():
-                    trad_in_simp = t2s_converter.convert(trad)
-                    if any(simp in line for line in minus_lines) and any(trad_in_simp in line for line in plus_lines):
-                        skipped_log.append(f"[SKIPPED] file: {rel_path}\n- {next((l for l in minus_lines if simp in l), '')}\n+ {next((l for l in plus_lines if trad_in_simp in l), '')}\n")
-                        skip = True
-                        break
-                if not skip:
-                    filtered_blocks.append(block)
-
-            if filtered_blocks:
-                if not has_diff:
-                    diff_file.write(f"--- {source_path}\n+++ {target_path}\n")
+        for rel_path in all_files:
+            source_path = source_files.get(rel_path)
+            target_path = target_files.get(rel_path)
+            
+            # 處理只存在於其中一方的檔案
+            if not source_path:
+                # 檔案僅存在於target
+                source_lines = []
+                with open(target_path, "r", encoding="utf-8") as f:
+                    target_lines = normalize_content(f.read()).splitlines()
+                
+                raw_diff = list(difflib.unified_diff(
+                    source_lines, target_lines,
+                    fromfile=f"[不存在] {rel_path}",
+                    tofile=str(target_path),
+                    lineterm='', n=3
+                ))
+                
+                diff_file.write('\n'.join(raw_diff))
+                diff_file.write('\n\n')
                 has_diff = True
-                for block in filtered_blocks:
-                    diff_file.write('\n'.join(block))
-                    diff_file.write('\n\n')
+                continue
+            
+            if not target_path:
+                # 檔案僅存在於source
+                with open(source_path, "r", encoding="utf-8") as f:
+                    source_lines = normalize_content(f.read()).splitlines()
+                target_lines = []
+                
+                raw_diff = list(difflib.unified_diff(
+                    source_lines, target_lines,
+                    fromfile=str(source_path),
+                    tofile=f"[不存在] {rel_path}",
+                    lineterm='', n=3
+                ))
+                
+                diff_file.write('\n'.join(raw_diff))
+                diff_file.write('\n\n')
+                has_diff = True
+                continue
+            
+            # 處理兩邊都存在的檔案
+            try:
+                with open(source_path, "r", encoding="utf-8") as f:
+                    source_lines = normalize_content(f.read()).splitlines()
+                
+                with open(target_path, "r", encoding="utf-8") as f:
+                    target_lines = normalize_content(f.read()).splitlines()
+                
+                raw_diff = list(difflib.unified_diff(
+                    source_lines, target_lines,
+                    fromfile=str(source_path),
+                    tofile=str(target_path),
+                    lineterm='', n=3
+                ))
+                
+                if not raw_diff:
+                    continue  # 無差異
+                
+                diff_blocks = []
+                current_block = []
+                for line in raw_diff:
+                    if line.startswith('@@') and current_block:
+                        diff_blocks.append(current_block)
+                        current_block = [line]
+                    else:
+                        current_block.append(line)
+                if current_block:
+                    diff_blocks.append(current_block)
+                
+                filtered_blocks = []
+                for block in diff_blocks:
+                    minus_lines = [l[1:].strip() for l in block if l.startswith('-') and not l.startswith('---')]
+                    plus_lines = [l[1:].strip() for l in block if l.startswith('+') and not l.startswith('+++')]
+                    skip = False
+                    for simp, trad in phrase_map.items():
+                        trad_in_simp = t2s_converter.convert(trad)
+                        if any(simp in line for line in minus_lines) and any(trad_in_simp in line for line in plus_lines):
+                            skipped_log.append(f"[SKIPPED] file: {rel_path}\n- {next((l for l in minus_lines if simp in l), '')}\n+ {next((l for l in plus_lines if trad_in_simp in l), '')}\n")
+                            skip = True
+                            break
+                    if not skip:
+                        filtered_blocks.append(block)
+                
+                if filtered_blocks:
+                    diff_file.write(f"--- {source_path}\n+++ {target_path}\n")
+                    has_diff = True
+                    for block in filtered_blocks:
+                        diff_file.write('\n'.join(block))
+                        diff_file.write('\n\n')
+            
+            except Exception as e:
+                print(f"比較失敗 {rel_path}: {e}")
+                continue
 
     if skipped_log:
         log_path = Path(output_file).with_suffix(".skipped.log")
